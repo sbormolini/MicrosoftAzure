@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionAppLearn", "FunctionAppLearn\FunctionAppLearn.csproj", "{57BEBD6A-2B0D-40C1-937D-14648683DB69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFunctionAppLearn", "TestFunctionAppLearn\TestFunctionAppLearn.csproj", "{B4FAA6F4-0FB1-4F89-87F3-D8E493DC320A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57BEBD6A-2B0D-40C1-937D-14648683DB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BEBD6A-2B0D-40C1-937D-14648683DB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BEBD6A-2B0D-40C1-937D-14648683DB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BEBD6A-2B0D-40C1-937D-14648683DB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4FAA6F4-0FB1-4F89-87F3-D8E493DC320A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4FAA6F4-0FB1-4F89-87F3-D8E493DC320A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4FAA6F4-0FB1-4F89-87F3-D8E493DC320A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4FAA6F4-0FB1-4F89-87F3-D8E493DC320A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A2C8721-62CB-4104-9199-18E5E9521003}
+	EndGlobalSection
+EndGlobal
