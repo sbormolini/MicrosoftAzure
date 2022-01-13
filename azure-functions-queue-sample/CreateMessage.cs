@@ -28,8 +28,8 @@ namespace StorageQueueDemo
     
             Message message = new()
             { 
-                ServiceProvider1TicketId = data?.coraId,
-                ServiceProvider2TicketId = data?.jiraId,
+                ServiceProvider1TicketId = data?.sp1Id,
+                ServiceProvider2TicketId = data?.sp2Id,
                 CreationDate = DateTime.UtcNow
             };
             log.LogInformation($"Created {message}");

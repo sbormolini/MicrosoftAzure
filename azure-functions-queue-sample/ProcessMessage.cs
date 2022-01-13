@@ -34,7 +34,7 @@ namespace StorageQueueDemo
             //        log.LogInformation($"Process Message: '{task}'");
 
             //        // remove message 
-            //        if (task.CoraTaskId == "1002")
+            //        if (task.Id == "1002")
             //        {
             //            log.LogInformation($"Remove message: '{message.MessageId}'");
             //            queueClient.DeleteMessage(message.MessageId, message.PopReceipt);
