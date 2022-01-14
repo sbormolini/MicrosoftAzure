@@ -9,6 +9,6 @@
     }
   },
   "extensions": {
-    "queues": { "visibilityTimeout": "00:15:00" }
+    "queues": { "visibilityTimeout": "00:05:00" }
   }
 }
