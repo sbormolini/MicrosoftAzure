@@ -3,6 +3,7 @@ using Microsoft.Identity.Client;
 
 namespace azure_auth_app_sample;
 
+// source https://docs.microsoft.com/en-us/learn/modules/implement-authentication-by-using-microsoft-authentication-library/4-interactive-authentication-msal
 class Program
 {
     private const string _clientId = "APPLICATION_CLIENT_ID";
