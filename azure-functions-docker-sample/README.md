@@ -6,3 +6,7 @@ Azure Functions running in container sample
 
 
 > func init --worker-runtime dotnet --docker
+
+
+### run image
+> docker run -p 8080:80 -it <docker_id>/azurefunctionsimage:v1.0.0
