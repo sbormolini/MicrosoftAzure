@@ -1,28 +1,28 @@
 # Import Classes
-if (Test-Path "$PSScriptRoot\Classes\classes.psd1") 
+if (Test-Path -Path "$PSScriptRoot\Classes\classes.psd1") 
 {
-    $ClassLoadOrder = Import-PowerShellDataFile -Path "$PSScriptRoot\Classes\classes.psd1" -ErrorAction SilentlyContinue
+    $classLoadOrder = Import-PowerShellDataFile -Path "$PSScriptRoot\Classes\classes.psd1" -ErrorAction SilentlyContinue
 }
 
-foreach ($class in $ClassLoadOrder.order) 
+foreach ($class in $classLoadOrder.order) 
 {
     $path = '{0}\classes\{1}.ps1' -f $PSScriptRoot, $class
-    if (Test-Path $path) 
+    if (Test-Path -Path $path) 
     {
         . $path
     }
 }
 
 # Get public and private function definition files.
-$Public  = @( Get-ChildItem -Path $PSScriptRoot\public\*.ps1 -ErrorAction SilentlyContinue )
-$Private = @( Get-ChildItem -Path $PSScriptRoot\private\*.ps1 -ErrorAction SilentlyContinue )
+$publicFunctions = @( Get-ChildItem -Path $PSScriptRoot\public\*.ps1 -ErrorAction SilentlyContinue )
+$privateFunctions = @( Get-ChildItem -Path $PSScriptRoot\private\*.ps1 -ErrorAction SilentlyContinue )
 
 # Dot source the files
-foreach ($import in @($Public + $Private))
+foreach ($import in @($publicFunctions + $privateFunctions))
 {
     try
     {
-        Write-Verbose "Importing $($Import.FullName)"
+        Write-Verbose "Importing $($import.FullName)"
         . $import.fullname
     }
     catch
@@ -31,4 +31,4 @@ foreach ($import in @($Public + $Private))
     }
 }
 
-Export-ModuleMember -Function $Public.Basename
+Export-ModuleMember -Function $publicFunctions.Basename
