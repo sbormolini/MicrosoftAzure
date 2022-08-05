@@ -1,5 +1,5 @@
-# h1 PowerShell Azure Function
-Run http function with custom PS Module
+# PowerShell Azure Function with custom PS Module
+Add custom PS Module to your project to use it in all functions of the function app:
 
 ```
 FunctionApp
