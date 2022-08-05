@@ -7,15 +7,13 @@ param($Request, $TriggerMetadata)
 Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
-$length = $Request.Query.Length
+$length = $Request.Query.PasswordLength
 if (-not $length) 
 {
-    $length = $Request.Body.Length
+    $length = $Request.Body.PasswordLength
 }
 
-Write-Host "Generate random password with length $($length)"
-$body = New-RandomPassword -Length $length
-#$body = "This HTTP triggered function executed successfully. Pass a length in the query string or in the request body for a personalized response."
+$body = "This HTTP triggered function executed successfully. Pass a length in the query string or in the request body for a personalized response."
 
 if ($length) 
 {
