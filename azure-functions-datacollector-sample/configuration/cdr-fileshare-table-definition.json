@@ -2,6 +2,7 @@
     "StorageAccountName": "StorageAccountName",
     "FileShareName": "FileShareName",
     "QuotaInGiB": 1024,
+    "UsageInBytes": 121212,
     "UsageInGiB": 0.13,
     "SourceSystem": "",
     "TimeGenerated": "2022-08-02T19:23:21.7283537Z"
