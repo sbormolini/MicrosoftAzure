@@ -19,7 +19,7 @@ class FileShareStatistic
     [string] $StorageAccountName
     [string] $FileShareName
     [int] $QuotaInGiB
-    [int] $UsageInBytes
+    [long] $UsageInBytes
     [decimal] $UsageInGiB
     [string] $SourceSystem
     [string] $TenantId
@@ -32,7 +32,7 @@ class FileShareStatistic
         [string] $StorageAccountName,
         [string] $FileShareName,
         [int] $QuotaInGiB,
-        [decimal] $UsageInBytes,
+        [long] $UsageInBytes,
         [string] $TenantId,
         [string] $_ResourceId,
         [string] $_SubscriptionId

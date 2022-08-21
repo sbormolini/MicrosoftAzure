@@ -21,15 +21,16 @@ foreach ($fileShare in $fileShares)
     $share = Get-AzRmStorageShare @parameters -GetShareUsage
 
     # add statistic object
-    $fileShareStatistic = [FileShareStatistic]::new(
-        $env:StorageAccountName,
-        $fileshare.Name,
-        $fileshare.Quota,
-        $share.ShareUsageBytes,
-        $env:TenantId,
-        $share.Id,
-        $share.Id.Split('/')[2]
-    )
+    $parameters = @{
+        StorageAccountName = $StorageAccountName
+        FileShareName = $fileshare.Name
+        QuotaInGiB = $fileshare.Quota
+        UsageInBytes = $share.ShareUsageBytes
+        TenantId = $TenantId
+        ResourceId = $share.Id
+        SubscriptionId = $share.Id.Split('/')[2]
+    }
+    $fileShareStatistic = New-FileShareStatistic @parameters
     Write-Host $fileShareStatistic.WriteUsageToString()
     $statistics += $fileShareStatistic
 }
