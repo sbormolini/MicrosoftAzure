@@ -31,7 +31,6 @@ function Get-AuthenticationBearerToken
 
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [Parameter(Mandatory)]
         [string] $ClientId,
 
         [Parameter(Mandatory=$true)]

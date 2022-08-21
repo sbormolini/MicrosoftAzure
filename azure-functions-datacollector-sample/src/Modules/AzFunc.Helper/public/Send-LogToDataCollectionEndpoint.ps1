@@ -27,7 +27,6 @@ function Send-LogToDataCollectionEndpoint
    (
       [Parameter(Mandatory=$true)]
       [ValidateNotNullOrEmpty()]
-      [Parameter(Mandatory)]
       [string] $DataCollectionEndpointURI,
 
       [Parameter(Mandatory=$true)]
@@ -48,7 +47,6 @@ function Send-LogToDataCollectionEndpoint
 
       [Parameter(Mandatory=$true)]
       [ValidateNotNullOrEmpty()]
-      [Parameter(Mandatory)]
       [string] $ClientId,
 
       [Parameter(Mandatory=$true)]
@@ -68,7 +66,8 @@ function Send-LogToDataCollectionEndpoint
       "Authorization" = "Bearer $bearerToken"; 
       "Content-Type" = "application/json" 
    }
-   $uri = "$DataCollectionEndpointURI/dataCollectionRules/$DataCollectionRuleImmutableId/streams/Custom-$TableName?api-version=2021-11-01-preview"
+   #$uri = "$($DataCollectionEndpointURI)/dataCollectionRules/$($DataCollectionRuleImmutableId)/streams/$($TableName)?api-version=2021-11-01-preview"
+   $uri = $DataCollectionEndpointURI + "/dataCollectionRules/" + $DataCollectionRuleImmutableId + "/streams/" + $TableName + "?api-version=2021-11-01-preview"
    $uploadResponse = Invoke-RestMethod -Uri $uri -Method "Post" -Body $LogObject -Headers $headers;
 
    return $uploadResponse
