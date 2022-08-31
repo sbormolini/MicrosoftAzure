@@ -23,52 +23,68 @@
 
 function Send-LogToDataCollectionEndpoint
 {
+   [CmdletBinding(DefaultParameterSetName = "ClientCredentials")]
    param 
    (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$true, ParameterSetName="ClientCredentials")]
+      [Parameter(Mandatory=$true, ParameterSetName="Token")]
       [ValidateNotNullOrEmpty()]
       [string] $DataCollectionEndpointURI,
 
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$true, ParameterSetName="ClientCredentials")]
+      [Parameter(Mandatory=$true, ParameterSetName="Token")]
       [ValidateNotNullOrEmpty()]
       [string] $DataCollectionRuleImmutableId,
       
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$true, ParameterSetName="ClientCredentials")]
+      [Parameter(Mandatory=$true, ParameterSetName="Token")]
       [ValidateNotNullOrEmpty()]
       [string] $TableName,
 
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$true, ParameterSetName="ClientCredentials")]
+      [Parameter(Mandatory=$true, ParameterSetName="Token")]
       [ValidateNotNullOrEmpty()]
       [object] $LogObject,
 
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false, ParameterSetName="ClientCredentials")]
       [ValidateNotNullOrEmpty()]
       [string] $TenantId,
 
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false, ParameterSetName="ClientCredentials")]
       [ValidateNotNullOrEmpty()]
       [string] $ClientId,
 
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false, ParameterSetName="ClientCredentials")]
       [ValidateNotNullOrEmpty()]
-      [string] $ClientSecret
+      [string] $ClientSecret,
+
+      [Parameter(Mandatory=$false, ParameterSetName="Token")]
+      [ValidateNotNullOrEmpty()]
+      [string] $Token
    )
 
-   # Obtain a bearer token used to authenticate against the data collection endpoint
-   $bearerToken = Get-AuthenticationBearerToken -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret
-   if ($null -eq $bearerToken)
+   if ($PSCmdlet.ParameterSetName -eq "ClientCredentials") 
    {
-      throw "Could not authenticate to tenant $($TenantId). Bearer token is null!"
+       # Obtain a bearer token used to authenticate against the data collection endpoint
+      $bearerToken = Get-AuthenticationBearerToken -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret
+      if ($null -eq $bearerToken)
+      {
+         throw "Could not authenticate to tenant $($TenantId). Bearer token is null!"
+      }
+   }
+   else 
+   {
+      $bearerToken = $Token
    }
    
    # Sending the data to Log Analytics via the DCR!
    $headers = @{
-      "Authorization" = "Bearer $bearerToken"; 
-      "Content-Type" = "application/json" 
+      "Authorization" = "Bearer $bearerToken"
+      "Content-Type" = "application/json"
    }
    #$uri = "$($DataCollectionEndpointURI)/dataCollectionRules/$($DataCollectionRuleImmutableId)/streams/$($TableName)?api-version=2021-11-01-preview"
-   $uri = $DataCollectionEndpointURI + "/dataCollectionRules/" + $DataCollectionRuleImmutableId + "/streams/" + $TableName + "?api-version=2021-11-01-preview"
-   $uploadResponse = Invoke-RestMethod -Uri $uri -Method "Post" -Body $LogObject -Headers $headers;
+   $uri = $DataCollectionEndpointURI + "/dataCollectionRules/" + $DataCollectionRuleImmutableId + "/streams/Custom-" + $TableName + "?api-version=2021-11-01-preview"
+   $uploadResponse = Invoke-RestMethod -Uri $uri -Method "Post" -Headers $headers -Body $LogObject 
 
    return $uploadResponse
 }
