@@ -51,7 +51,7 @@ class FileShareStatistic
         $this._SubscriptionId = $_SubscriptionId
     }
 
-    [string] WriteUsageToString()
+    [string] GetUsageInformation()
     {
         # Write stats to std output
         $sb = [System.Text.StringBuilder]::new()
