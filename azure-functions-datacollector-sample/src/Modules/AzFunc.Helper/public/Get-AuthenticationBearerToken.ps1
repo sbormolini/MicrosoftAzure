@@ -38,15 +38,15 @@ function Get-AuthenticationBearerToken
         [string] $ClientSecret
     )
 
-    ## Obtain a bearer token used to authenticate
+    # Obtain a bearer token used to authenticate
     $scope = [System.Web.HttpUtility]::UrlEncode("https://monitor.azure.com//.default")   
-    $body = "client_id=$ClientId&scope=$scope&client_secret=$ClientSecret&grant_type=client_credentials";
-    $headers = @{"Content-Type" = "application/x-www-form-urlencoded" };
+    $body = "client_id=$ClientId&scope=$scope&client_secret=$ClientSecret&grant_type=client_credentials"
+    $headers = @{"Content-Type" = "application/x-www-form-urlencoded" }
     $uri = "https://login.microsoftonline.com/$TenantId/oauth2/v2.0/token"
 
     try 
     {
-        $response = Invoke-RestMethod -Uri $uri -Method "Post" -Body $body -Headers $headers
+        $response = Invoke-RestMethod -Uri $uri -Method "Post" -Headers $headers -Body $body 
         if ($response.StatusCode -lt 300)
         {
             $bearerToken = $response.access_token
