@@ -6,13 +6,16 @@ param($Request, $TriggerMetadata)
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
 
+Write-Host "Get Share for $($env:StorageAccountName) using $($context.Context)"
+#$context = New-AzStorageContext -UseConnectedAccount -StorageAccountName $env:StorageAccountName // not supported for files
 $context = New-AzStorageContext -StorageAccountName $env:StorageAccountName -SasToken $env:SasToken 
 $fileShares = Get-AzStorageShare -Context $context | Where-Object { $_.IsSnapshot -eq $false }
-$statistics = @()
 
+$statistics = @()
 foreach ($fileShare in $fileShares)
 {   
     # get file share usage data
+    Write-Host "Get Share Usage for $($fileshare.Name) in $($env:StorageAccountName)"
     $parameters = @{
         ResourceGroupName = $env:ResourceGroupName
         StorageAccountName = $env:StorageAccountName
@@ -22,28 +25,31 @@ foreach ($fileShare in $fileShares)
 
     # add statistic object
     $parameters = @{
-        StorageAccountName = $StorageAccountName
+        StorageAccountName = $env:StorageAccountName
         FileShareName = $fileshare.Name
         QuotaInGiB = $fileshare.Quota
         UsageInBytes = $share.ShareUsageBytes
-        TenantId = $TenantId
+        TenantId = $env:TenantId
         ResourceId = $share.Id
         SubscriptionId = $share.Id.Split('/')[2]
     }
     $fileShareStatistic = New-FileShareStatistic @parameters
-    Write-Host $fileShareStatistic.WriteUsageToString()
+    Write-Host "Add following usage statistic to  data collection:"
+    Write-Host $fileShareStatistic.GetUsageInformation()
     $statistics += $fileShareStatistic
 }
 
+# obtain token using managed identity
+$token = (Get-AzAccessToken -ResourceUrl "https://monitor.azure.com/").Token
+
 # send data to collection endpoint
+Write-Host "Send data to collection endpoint $($env:DataCollectionEndpointURI)"
 $parameters = @{
     DataCollectionEndpointURI = $env:DataCollectionEndpointURI
     DataCollectionRuleImmutableId = $env:DataCollectionRuleImmutableId
     TableName = $env:TableName
     LogObject = $statistics | ConvertTo-Json
-    TenantId = $env:TenantId
-    ClientId = $env:ClientId
-    ClientSecret = $env:ClientSecret
+    Token = $token
 }
 $body = Send-LogToDataCollectionEndpoint @parameters
 
