@@ -2,6 +2,8 @@
 Powershell Azure function which collects data from Storage Account and send it to a Data Collection Endpoint. 
 From there the data will end via Data collection rule at a custom DCR-based log table in Log Analytics workspace.
 
+![image](https://user-images.githubusercontent.com/86348794/187877895-0464d191-3329-4081-84d9-a1c281f5d1d3.png)
+
 ## Installation
 1. Register application in Azure AD
 2. Create data collection endpoint
