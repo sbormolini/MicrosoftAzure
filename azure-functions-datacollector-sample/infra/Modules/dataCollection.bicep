@@ -1,14 +1,20 @@
+@description('')
+param dataCollectionEndpointName string
+
+@description('')
+param dataCollectionRuleName string
+
 @description('Location for resources')
 param location string = resourceGroup().location
 
+@description('')
+param tags object
+
 
 resource dataCollectionEndpoint 'Microsoft.Insights/dataCollectionEndpoints@2021-09-01-preview' = {
-  name: 'string'
+  name: dataCollectionEndpointName
   location: location
-  tags: {
-    tagName1: 'tagValue1'
-    tagName2: 'tagValue2'
-  }
+  tags: tags
   kind: 'string'
   properties: {
     configurationAccess: {}
@@ -22,12 +28,9 @@ resource dataCollectionEndpoint 'Microsoft.Insights/dataCollectionEndpoints@2021
 }
 
 resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2021-09-01-preview' = {
-  name: 'string'
+  name: dataCollectionRuleName
   location: location
-  tags: {
-    tagName1: 'tagValue1'
-    tagName2: 'tagValue2'
-  }
+  tags: tags
   kind: 'string'
   properties: {
     dataCollectionEndpointId: 'string'
