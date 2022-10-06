@@ -25,14 +25,20 @@ var hostingPlanName = 'asp-${corporationName}-${serviceName}-${locationShortName
 var applicationInsightsName = 'aai-${corporationName}-${serviceName}-${locationShortName}-${environmentId}'
 var storageAccountName = 'stfunc${serviceName}${locationShortName}${environmentId}'
 
+var logAnalyticsWorkspaceName = 'law-${corporationName}-${serviceName}-${locationShortName}-${environmentId}' 
+var clusterResourceId = ''
+var defaultDataCollectionRuleResourceId = ''
+var dataCollectionEndpointName = ''
+var dataCollectionRuleName = ''
+
 
 // Module Log Analytics Workspace
 module logAnalyticsWorkspaceModule 'Modules/logAnalyticsWorkspace.bicep' = {
   name: 'module-logAnalyticsWorkspace-${utcValue}'
-  params:{
-    name: ''
-    clusterResourceId: ''
-    defaultDataCollectionRuleResourceId: ''
+  params: {
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    clusterResourceId: clusterResourceId
+    defaultDataCollectionRuleResourceId: defaultDataCollectionRuleResourceId
     location: location
     tags: tags
   }
@@ -40,10 +46,10 @@ module logAnalyticsWorkspaceModule 'Modules/logAnalyticsWorkspace.bicep' = {
 
 // Module Data collection
 module dataCollectionModule 'Modules/dataCollection.bicep' = {
-  name: ''
-  params:{
-    dataCollectionEndpointName: ''
-    dataCollectionRuleName: ''
+  name: 'module-dataCollectionModule-${utcValue}'
+  params: {
+    dataCollectionEndpointName: dataCollectionEndpointName
+    dataCollectionRuleName: dataCollectionRuleName
     tags: tags
     location: location
   }
@@ -53,7 +59,7 @@ module dataCollectionModule 'Modules/dataCollection.bicep' = {
 // Module Application insights
 module appInsightsModule 'Modules/appInsight.bicep' = {
   name: 'module-appInsight-${utcValue}'
-  params:{
+  params: {
     applicationInsightsName: applicationInsightsName
     location: location
     tags: tags
