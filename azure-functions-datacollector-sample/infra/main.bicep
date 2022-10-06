@@ -13,7 +13,11 @@ param location string = resourceGroup().location
 @description('The location short name of the service')
 param locationShortName string = 'swn'
 
+@description('')
 param utcValue string = utcNow()
+
+@description('')
+param tags object
 
 
 var functionAppName = 'func-${corporationName}-${serviceName}-${locationShortName}-${environmentId}'
@@ -22,12 +26,37 @@ var applicationInsightsName = 'aai-${corporationName}-${serviceName}-${locationS
 var storageAccountName = 'stfunc${serviceName}${locationShortName}${environmentId}'
 
 
+// Module Log Analytics Workspace
+module logAnalyticsWorkspaceModule 'Modules/logAnalyticsWorkspace.bicep' = {
+  name: 'module-logAnalyticsWorkspace-${utcValue}'
+  params:{
+    name: ''
+    clusterResourceId: ''
+    defaultDataCollectionRuleResourceId: ''
+    location: location
+    tags: tags
+  }
+}
+
+// Module Data collection
+module dataCollectionModule 'Modules/dataCollection.bicep' = {
+  name: ''
+  params:{
+    dataCollectionEndpointName: ''
+    dataCollectionRuleName: ''
+    tags: tags
+    location: location
+  }
+  //dependsOn: logAnalyticsWorkspaceModule.name
+}
+
 // Module Application insights
 module appInsightsModule 'Modules/appInsight.bicep' = {
   name: 'module-appInsight-${utcValue}'
   params:{
     applicationInsightsName: applicationInsightsName
     location: location
+    tags: tags
   }
 }
 
@@ -39,6 +68,7 @@ module functionAppModule 'Modules/functionApp.bicep' = {
     hostingPlanName: hostingPlanName
     storageAccountName: storageAccountName
     location: location
+    tags: tags
     instrumentationKey: appInsightsModule.outputs.instrumentationKey
   }
 }
