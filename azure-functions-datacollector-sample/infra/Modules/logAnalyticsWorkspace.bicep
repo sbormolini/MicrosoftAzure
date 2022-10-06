@@ -1,5 +1,5 @@
 @description('')
-param name string
+param logAnalyticsWorkspaceName string
 
 @description('Location for resources')
 param location string = resourceGroup().location
@@ -15,7 +15,7 @@ param tags object
 
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-12-01-preview' = {
-  name: name
+  name: logAnalyticsWorkspaceName
   location: location
   tags: tags
   properties: {
