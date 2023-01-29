@@ -9,11 +9,18 @@
     )
 #>
 
+enum AadGuestUserStatus
+{
+    Active
+    InProgress
+    Inactive
+}
+
 class AadGuestUser
 {
     # table related
     [guid] $Id
-    [string] $Status
+    [AadGuestUserStatus] $Status
     [string] $PartitionKey
     [string] $RowKey
     [string] $Info
@@ -53,9 +60,9 @@ class AadGuestUser
     {
         # set members
         $this.Id = [guid]::new()
-        $this.Status = "InProgress"
-        $this.PartitionKey = (Get-Date -Format yyyyMMdd)
-        $this.RowKey = [string]($Manager.Split(' ')[0][0..1] + $Manager.Split(' ')[1][0..1] -join '').ToUpper()
+        $this.Status = [AadGuestUserStatus]::InProgress
+        $this.PartitionKey = (Get-Date -Format yyyy-MM)
+        $this.RowKey = $EmailAddress
      
         $this.RedirectUrl = $RedirectUrl
         $this.PersonalMessage = $PersonalMessage
