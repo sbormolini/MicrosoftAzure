@@ -28,7 +28,7 @@ while (-not$completed) {
         $completed = $true
     }
     else {
-        Start-Sleep -Seconds 60
+        Start-Sleep -Seconds 15
     }
 }
 
@@ -50,7 +50,43 @@ $parameters = @{
 }
 Remove-AzCosmosDBSqlContainer @parameters
 
-Start-Sleep -Seconds 60
+Start-Sleep -Seconds 15
+
+
+#Requires -Modules Az.CosmosDB
+
+$resourceGroupNameCosmosDB = "rg-cosmosDB-{env}"
+$accountName = "cdb-test-{env}"
+Write-Host "Get target container $(containerName) troughput from $accountName in $resourceGroupNameCosmosDB"
+
+$parameters = @{
+    ResourceGroupName = $resourceGroupNameCosmosDB
+    AccountName = $accountName
+    DatabaseName = "$(databaseName)"
+    Name = "$(containername)"
+}
+Get-AzCosmosDBSqlContainerThroughput @parameters
+
+Start-Sleep -Seconds 15
+
+
+#Requires -Modules Az.CosmosDB
+
+$resourceGroupNameCosmosDB = "rg-cosmosDB-{env}"
+$accountName = "cdb-test-{env}"
+$autoscaleMaxThroughput = 4000
+Write-Host "Update target container $(containerName) troughput to $autoscaleMaxThroughput in $accountName in $resourceGroupNameCosmosDB"
+
+$parameters = @{
+    ResourceGroupName = $resourceGroupNameCosmosDB
+    AccountName = $accountName
+    DatabaseName = "$(databaseName)"
+    Name = "$(containername)"
+    AutoscaleMaxThroughput = $autoscaleMaxThroughput
+}
+Update-AzCosmosDBSqlContainerThroughput @parameters
+
+Start-Sleep -Seconds 15
 
 
 #Requires -Modules Az.CosmosDB
@@ -69,7 +105,7 @@ $parameters = @{
 }
 New-AzCosmosDBSqlContainer @parameters
 
-Start-Sleep -Seconds 60
+Start-Sleep -Seconds 15
 
 
 #Requires -Modules Az.DataFactory
@@ -102,7 +138,7 @@ while (-not$completed) {
         $completed = $true
     }
     else {
-        Start-Sleep -Seconds 60
+        Start-Sleep -Seconds 15
     }
 }
 
